@@ -6,8 +6,10 @@
 package servlets;
 
 import databases.EventDB;
+import databases.UserDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Events;
+import models.Users;
 
 /**
  *
@@ -39,7 +42,7 @@ public class playerServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet playerServlet</title>");            
+            out.println("<title>Servlet playerServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet playerServlet at " + request.getContextPath() + "</h1>");
@@ -60,14 +63,14 @@ public class playerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         HttpSession session = request.getSession();
-         
-        EventDB ed = new EventDB(); 
-        
+        HttpSession session = request.getSession();
+
+        EventDB ed = new EventDB();
+
         List<Events> eList = ed.getAll();
-        
+
         session.setAttribute("events", eList);
-        
+
         getServletContext().getRequestDispatcher("/player.jsp").forward(request, response);
     }
 
@@ -82,7 +85,51 @@ public class playerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        EventDB ed = new EventDB();
+        UserDB udb = new UserDB();
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        Users user = (Users) session.getAttribute("user");
+
+        Events event = null;
+        if (action.equals("register")) {
+            String ev = request.getParameter("chosenEvent");
+            int eve = Integer.parseInt(ev);
+            List<Events> events = ed.getAll();
+
+            for (Events e : events) {
+                if (e.getEventId() == eve) {
+                    event = e;
+                }
+            }
+            request.setAttribute("chosen", event);
+            getServletContext().getRequestDispatcher("/player.jsp").forward(request, response);
+        }
+        if (action.equals("codecheck")) {
+            String ev = request.getParameter("chosenEvent");
+            int eve = Integer.parseInt(ev);
+            String code = request.getParameter("code");
+            List<Events> events = ed.getAll();
+
+            for (Events e : events) {
+                if (e.getEventId() == eve) {
+                    event = e;
+                }
+            }
+            if (event.getEventId() == Integer.parseInt(code)) {
+                BigInteger uP = user.getPoints();
+                BigInteger eP = event.getPoints();
+
+                BigInteger val = uP.add(eP);
+
+                user.setPoints(val);
+
+                udb.update(user);
+                session.setAttribute("user", user);
+                getServletContext().getRequestDispatcher("/player.jsp").forward(request, response);
+            }
+        }
+
     }
 
     /**

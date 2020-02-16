@@ -85,7 +85,6 @@
 
         .outer-container {
             margin-top:200;
-            height: 100%;
             display:flex;
             flex-direction: row;
             justify-content: center;
@@ -111,9 +110,6 @@
             padding-bottom: 50;
         }
 
-        th, tr {
-            padding:50;
-        }
     </style>
     <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet">
 </head>
@@ -136,7 +132,7 @@
             </div>
         </li>
     </ul>
-        <h2>Your Points: ${sessionScope.user.points}</h2>
+    <h2 class="center">Your Points: ${sessionScope.user.points}</h2>
     <h1 class="center">Events</h1>
     <div class="outer-container">
         <div class="container">
@@ -153,14 +149,14 @@
                 <c:forEach var="event" items="${events}">
                     <tr>
                     <div class="event">
-                        <td><div>${event.eventName}</div></td>
-                        <td><div>${event.description}</div></td>
-                        <td><div>${event.points}</div></td>
+                        <td><div class="padding">${event.eventName}</div></td>
+                        <td><div class="padding">${event.description}</div></td>
+                        <td><div class="padding">${event.points}</div></td>
                         <td><div> <fmt:formatDate value="${event.startTime}" type="both"/>/></div></td>
                         <td><div><fmt:formatDate value="${event.endTime}" type="both"/>/></div></td>
                         <td>
-                            <form action="registerEvent" method="post" >
-                                <input type="submit" value="Register">
+                            <form action="player" method="post" >
+                                <input type="submit" value="Add Points">
                                 <input type="hidden" name="action" value="register">
                                 <input type="hidden" name="chosenEvent" value="${event.eventId}">
                             </form>
@@ -169,6 +165,14 @@
                     </tr>
 
                 </c:forEach>
+                     <c:if test="${chosen!=null}">
+                    <form action="player" method="post">
+                        <input type="text" name="code">
+                        <input type="submit" value="Check Code">
+                        <input type="hidden" name="action" value="codeCheck">
+                        <input type="hidden" name="chosenEvent" value="${chosen.eventId}">
+                    </form>  
+                </c:if>
             </table>
         </div>
     </div>

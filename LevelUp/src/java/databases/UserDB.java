@@ -11,6 +11,8 @@ package databases;
 import models.Users;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
@@ -32,6 +34,25 @@ public class UserDB {
         }
         
     }
+     public int update(Users user) {
+        EntityManager em = DBUtil.getEmFactory().createEntityManager();
+        EntityTransaction trans = em.getTransaction();
+        
+        try {
+            trans.begin();
+            em.merge(user);
+            trans.commit();
+            return 1;
+        } catch (Exception ex) {
+            trans.rollback();
+            Logger.getLogger(UserDB.class.getName()).log(Level.SEVERE, "Cannot update " + user.toString(), ex);
+           
+        } finally {
+            em.close();
+        }
+        return 0;
+    }
+     
     public static List<Users> getAll(){
     
         EntityManager em = DBUtil.getEmFactory().createEntityManager();

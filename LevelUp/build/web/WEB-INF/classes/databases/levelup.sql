@@ -37,9 +37,9 @@ VALUES("organizer","password", 1);
 INSERT INTO users(username, password,points, role)
 VALUES("player","password",30, 0);
 INSERT INTO events(organizer_id, event_id,event_name,description,points,start_time,end_time)
-VALUES("organizer",1, "Hackathon", "Event for hacking", 3,NOW(),NOW() );
+VALUES("organizer",1234, "Hackathon", "Event for hacking", 3,NOW(),NOW() );
 INSERT INTO events(organizer_id, event_id,event_name,description,points,start_time,end_time)
-VALUES("organizer",2, "Paint Event", "Event for painting", 2,NOW(),NOW() );
+VALUES("organizer",3456, "Paint Event", "Event for painting", 2,NOW(),NOW() );
 INSERT INTO events(organizer_id, event_id,event_name,description,points,start_time,end_time)
-VALUES("organizer",3, "Dance Event", "Event for dancing", 3,NOW(),NOW() );
+VALUES("organizer",5678, "Dance Event", "Event for dancing", 3,NOW(),NOW() );
 COMMIT;

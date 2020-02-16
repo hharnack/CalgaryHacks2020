@@ -3,13 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
     <style>
-
         body {
             background-image: linear-gradient(#eb3349, #f45c43);
             height: 100vh;
             font-family: 'Quicksand', sans-serif;
         }
-
         ul {
             list-style-type: none;
             margin: 0;
@@ -17,11 +15,9 @@
             overflow: hidden;
             background-color: #333;
         }
-
         li {
             float: left;
         }
-
         li a, .dropbtn {
             display: inline-block;
             color: white;
@@ -29,15 +25,12 @@
             padding: 14px 16px;
             text-decoration: none;
         }
-
         li a:hover, .dropdown:hover .dropbtn {
             background-color: red;
         }
-
         li.dropdown {
             display: inline-block;
         }
-
         .dropdown-content {
             display: none;
             position: absolute;
@@ -46,7 +39,6 @@
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
         }
-
         .dropdown-content a {
             color: black;
             padding: 12px 16px;
@@ -54,18 +46,14 @@
             display: block;
             text-align: left;
         }
-
         .dropdown-content a:hover {background-color: #f45c43;}
-
         .dropdown:hover .dropdown-content {
             display: block;
         }
-
         h3 {
             color: white;
             padding: 0;
         }
-
         .row {
             color:white;
             display:flex;
@@ -73,15 +61,12 @@
             justify-content: space-between;
             text-decoration: none;
         }
-
         .title {
             font-size: 120%;
         }
-
         .username {
             align-self: flex-end;
         }
-
         .outer-container {
             margin-top: 200;
             height: 100%;
@@ -90,7 +75,6 @@
             justify-content: center;
             align-content: center;
         }
-
         .container {
             background-color: white;
             height: 50%;
@@ -127,7 +111,42 @@
          <h1 class="center">Your Events</h1>
     <div class="outer-container">
         <div class="container">
+            <table>
+                <tr>
+                <div class="event">
+                    <th>Event Name</th>
+                    <th>Description</th>
+                    <th>Points</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </div>
+                </tr>
+                <c:forEach var="event" items="${events}">
+                    <tr>
+                    <div class="event">
+                        <td><div>${event.eventName}</div></td>
+                        <td><div>${event.description}</div></td>
+                        <td><div>${event.points}</div></td>
+                        <td><div> <fmt:formatDate value="${event.startTime}" type="both"/>/></div></td>
+                        <td><div><fmt:formatDate value="${event.endTime}" type="both"/>/></div></td>
+                        <td>
+                            <form action="AddEvent" method="post" >
+                                <input type="submit" value="Register">
+                                <input type="hidden" name="action" value="register">
+                                <input type="hidden" name="chosenEvent" value="${event.eventId}">
+                            </form>
+                            <form action="DeleteEvent" method="post" >
+                                <input type="submit" value="Delete">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="chosenEvent" value="${event.eventId}">
+                            </form>
+                        </td>
+                    </div>
+                    </tr>
+
+                </c:forEach>
+            </table>
         </div>
     </div>
 </body>
-</html>
+</html> 
