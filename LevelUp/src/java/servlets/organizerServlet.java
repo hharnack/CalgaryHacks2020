@@ -5,12 +5,16 @@
  */
 package servlets;
 
+import databases.EventDB;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.Events;
 
 /**
  *
@@ -56,6 +60,14 @@ public class organizerServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+         
+        EventDB ed = new EventDB(); 
+        
+        List<Events> eList = ed.getAll();
+        
+        session.setAttribute("events", eList);
+        
         getServletContext().getRequestDispatcher("/organizer.jsp").forward(request, response);
     }
 
@@ -70,6 +82,38 @@ public class organizerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        EventDB ed = new EventDB(); 
+        String action = request.getParameter("action"); 
+        HttpSession session = request.getSession(); 
+        String ev = request.getParameter("chosenEvent");
+
+        Events event = null; 
+        if (action.equals("DeleteEvent")) { 
+            
+            List events = ed.getAll();
+
+            for (Events e : events){
+                if (e.getEventName().equals(ev)) {
+                    events.remove(e);
+                } else{
+                    event=e;
+                }
+            }
+            session.setAttribute("chosenEvent",event);
+        }else if (action.equals("AddEvent")) { 
+            
+            List events = ed.getAll();
+
+            for (Events e : events){
+                if (e.getEventName().equals(ev)) {
+                    events.add(e);
+                    event=e;
+                } else{
+                    event=e;
+                }
+            }
+            session.setAttribute("chosenEvent",event);
+        }       
         processRequest(request, response);
     }
 
