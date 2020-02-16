@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>organizerServlet</servlet-name>
+        <servlet-class>servlets.organizerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>playerServlet</servlet-name>
+        <servlet-class>servlets.playerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>signUpServlet</servlet-name>
+        <servlet-class>servlets.signUpServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>organizerServlet</servlet-name>
+        <url-pattern>/organizer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>playerServlet</servlet-name>
+        <url-pattern>/player</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>signUpServlet</servlet-name>
+        <url-pattern>/signUp</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
