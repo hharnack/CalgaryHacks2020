@@ -127,6 +127,41 @@
          <h1 class="center">Your Events</h1>
     <div class="outer-container">
         <div class="container">
+            <table>
+                <tr>
+                <div class="event">
+                    <th>Event Name</th>
+                    <th>Description</th>
+                    <th>Points</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </div>
+                </tr>
+                <c:forEach var="event" items="${events}">
+                    <tr>
+                    <div class="event">
+                        <td><div>${event.eventName}</div></td>
+                        <td><div>${event.description}</div></td>
+                        <td><div>${event.points}</div></td>
+                        <td><div> <fmt:formatDate value="${event.startTime}" type="both"/>/></div></td>
+                        <td><div><fmt:formatDate value="${event.endTime}" type="both"/>/></div></td>
+                        <td>
+                            <form action="AddEvent" method="post" >
+                                <input type="submit" value="Register">
+                                <input type="hidden" name="action" value="register">
+                                <input type="hidden" name="chosenEvent" value="${event.eventId}">
+                            </form>
+                            <form action="DeleteEvent" method="post" >
+                                <input type="submit" value="Delete">
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="chosenEvent" value="${event.eventId}">
+                            </form>
+                        </td>
+                    </div>
+                    </tr>
+
+                </c:forEach>
+            </table>
         </div>
     </div>
 </body>
